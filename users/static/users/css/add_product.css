@@ -1,0 +1,62 @@
+/* Page wrapper */
+.add-product-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px 20px;
+    background-color: #d49535;
+    border-radius: 10px;
+}
+
+/* Form Card */
+.form-card {
+    background: rgb(32, 178, 223);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title */
+.form-title {
+    font-size: 24px;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Form fields spacing */
+.form-fields p {
+    margin-bottom: 20px;
+}
+
+/* Labels and inputs */
+form label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+    color: #34495e;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border 0.2s;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border-color: #5cb85c;
+    outline: none;
+}
+
+/* Submit button */
+button.btn-success {
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}

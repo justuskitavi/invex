@@ -1,0 +1,42 @@
+{% extends "invex/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'invex/home.css' %}">
+    <div class="home-background">    
+        <div class="home-banner">
+            <div class="overlay-text">
+                <h1>Welcome, {{ user.Fname }}</h1>
+                <p class="lead">Manage your shop, staff and profile easily.</p>
+            </div>
+        </div>
+
+        <div class="card-container">
+            <div class="card home-card">
+                <img src="{% static 'images/home/employees.png' %}" class="card-img-top" alt="Employees">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Staff</h5>
+                    <p class="card-text">Manage your Staff</p>
+                    <a href="{% url 'employee-list' %}" class="btn btn-outline-primary">View your staff members</a>
+                </div>
+            </div>
+
+            <div class="card home-card">
+                <img src="{% static 'images/home/shop.png' %}" class="card-img-top" alt="Shops">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Shops Owned</h5>
+                    <p class="card-text">View or Manage Your Shops</p>
+                    <a href="{% url 'view-shop' %}" class="btn btn-outline-primary">View your shops</a>
+                </div>
+            </div>
+
+            <div class="card home-card">
+                <img src="{% static 'images/home/profile.png' %}" class="card-img-top" alt="Profile">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Profile</h5>
+                    <p class="card-text">Manage your personal information.</p>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-primary">Go to Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

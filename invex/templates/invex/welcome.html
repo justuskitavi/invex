@@ -1,0 +1,16 @@
+{% extends "invex/base.html" %}
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'invex/welcome.css' %}">
+
+  <div class="welcome-container">
+    <h1 class="display-4">Welcome to Invex</h1>
+    <p class="lead">Invex is your intelligent inventory and expense management platform. Streamline your personal or business financial operations effortlessly.</p>
+    
+    <div class="mt-4">
+      <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+      <a href="{% url 'register' %}" class="btn btn-success btn-lg">Register</a>
+    </div>
+  </div>
+{% endblock %}

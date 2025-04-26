@@ -1,0 +1,95 @@
+/* General layout */
+body {
+    background: #d1ddf5;
+    color: #3d3d38;
+    margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ca2828;
+}
+
+ul {
+    margin: 0;
+}
+
+/* Navbar */
+.bg-steel {
+    background-color: #c0cfda;
+}
+
+.site-header .navbar-nav .nav-link {
+    color: #161515fa;
+}
+
+/* Alert & Container Structure */
+.container {
+    position: relative;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Card layout for use throughout app */
+.card {
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Responsive sidebar/card layout */
+.col-md-4 {
+    position: absolute;
+    right: -80px;
+    top: 0;
+    width: calc(25% - 10px);
+}
+
+@media (max-width: 991.98px) {
+    .col-md-4 {
+        position: static;
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+/* Section styling for content blocks (if used) */
+.content-section {
+    background: #231b96;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(71, 20, 20, 0.1);
+}
+
+.content-section h3 {
+    font-size: 1.2rem;
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 10px;
+}
+
+/* List Group Styling */
+.list-group {
+    margin-top: 15px;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #cce267;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-item-light {
+    color: #818182;
+    background-color: #fdfdfe;
+}

@@ -1,0 +1,28 @@
+{% extends 'invex/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'users/css/reset_password.css' %}">
+
+<div class="reset-container">
+  <h2>Verify OTP</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <input type="text" name="otp" class="form-control" placeholder="Enter OTP" required>
+
+    {% if error %}
+      <p class="text-danger">{{ error }}</p>
+    {% endif %}
+
+    <button type="submit" class="btn btn-success">Verify</button>
+  </form>
+
+  <div class="resend-section">
+    <p id="timer">You can resend OTP in <span id="countdown">60</span> seconds.</p>
+    <a id="resend-btn" href="{% url 'resend-reset-otp' %}" class="btn btn-outline-secondary" style="display: none;">Resend OTP</a>
+  </div>
+</div>
+
+<script src="{% static 'users/js/otp_timer.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "invex/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'users/css/view_shop.css' %}">
+
+<div class="shop-table-container">
+  <h2 class="page-title text-center mb-4">Your Shops</h2>
+
+  {% if shops %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Shops</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for shop in shops %}
+      <tr>
+        <td>
+          <div class="shop-card">
+            <h5>{{ shop.shopName }}</h5>
+            <p><strong>Shop ID:</strong> {{ shop.shopID }}</p>
+            <p><strong>Type:</strong> {{ shop.type }}</p>
+            <p><strong>Industry:</strong> {{ shop.industry }}</p>
+            <p><strong>Location:</strong> {{ shop.location }}</p>
+          </div>
+        </td>
+        <td class="align-middle text-center">
+          <a href="{% url 'shop-detail' shop.shopID %}" class="btn btn-outline-primary">View Shop</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+  <div class="text-center mt-5">
+    <p class="text-muted">You have not created any shops yet.</p>
+    <a href="{% url 'create-shop' %}" class="btn btn-primary">Create Your First Shop</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

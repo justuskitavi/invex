@@ -1,0 +1,41 @@
+{% extends "invex/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Link to login-specific CSS -->
+<link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2 class="login-title">Login</h2>
+    <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Email Address" required>
+      </div>
+      
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
+
+      <!-- Forgot Password Link -->
+      <div class="text-end mb-2">
+        <a href="{% url 'forgot-password' %}" class="text-decoration-none">Forgot Password?</a>
+      </div>
+
+      {% if error %}
+        <p class="error-text">{{ error }}</p>
+      {% endif %}
+
+      <button type="submit" class="btn-login">Login</button>
+      
+      <p class="register-link">
+        Don't have an account? <a href="{% url 'register' %}">Register</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

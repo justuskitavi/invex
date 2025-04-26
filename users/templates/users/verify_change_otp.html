@@ -1,0 +1,17 @@
+{% extends "invex/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'users/css/verify_otp.css' %}">
+
+<div class="otp-wrapper">
+  <h2>Enter the OTP sent to your email</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Verify</button>
+  </form>
+  <p id="timer">Resend available in <span id="countdown">60</span> seconds</p>
+  <a href="{% url 'resend-change-otp' %}" id="resend-btn" style="display:none;" class="btn btn-link">Resend OTP</a>
+</div>
+<script src="{% static 'users/js/verify_otp.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,73 @@
+/* Register Page Container */
+.register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #eef4f9;
+    padding: 20px;
+}
+
+/* Register Card */
+.register-card {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Title */
+.register-title {
+    text-align: center;
+    font-size: 26px;
+    color: #34495e;
+    margin-bottom: 25px;
+}
+
+/* Form Fields */
+.register-form p {
+    margin-bottom: 20px;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+}
+
+.register-form input,
+.register-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Register Button */
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background-color: #2ecc71;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-register:hover {
+    background-color: #27ae60;
+}

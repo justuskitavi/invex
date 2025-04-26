@@ -1,0 +1,80 @@
+/* Container holding the table */
+.shop-table-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 15px;
+}
+
+/* Page title */
+.page-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Table styles */
+.table-wrapper {
+    background-color: #10dd3d; /* 💡 Background color for the table */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Table header styling */
+.table thead th {
+    background-color: #34495e;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    padding: 12px;
+}
+
+/* Table cell spacing */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+/* Table cell styling */
+.table td {
+    vertical-align: middle;
+    text-align: left;
+    padding: 15px;
+}
+
+/* Card for shop details */
+.shop-card {
+    background-color: #50d477;  /* 💡 Card background color */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.shop-card h5 {
+    margin-top: 0;
+    color: #2980b9;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.shop-card p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Button column */
+.table td.align-middle {
+    text-align: center;
+}
+
+/* Button styling */
+.btn-outline-primary {
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+}

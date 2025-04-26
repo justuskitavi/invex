@@ -1,0 +1,80 @@
+{% extends "invex/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+
+<div class="profile-container">
+
+  <!-- Personal Information -->
+  <div class="card profile-card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h4>Personal Details</h4>        
+    </div>
+    <div class="card-body">
+      <p><strong>User ID:</strong> {{ user.userID }}</p>
+      <p><strong>Full Name:</strong> {{ user.Fname }} {{ user.Lname }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>National ID:</strong> {{ user.nationalID }}</p>
+      <p><strong>Gender:</strong> {{ user.gender }}</p>
+      <p><strong>Age:</strong> {{ user.DoB|timesince }} old</p>
+    </div>
+    <div class="card-footer">
+      <a href="#" class="btn btn-outline-primary me-2">Update Profile</a>
+      <a href="{% url 'change-password' %}" class="btn btn-outline-secondary me-2">Change Password</a>
+    </div>
+  </div>
+
+  <!-- Shops Owned -->
+  <div class="card profile-card mb-4">
+    <div class="card-header bg-success text-white">
+      <h4>Shops Owned</h4>        
+    </div>
+    <div class="card-body">
+      {% if shops %}
+        {% for shop in shops %}
+          <div class="border rounded p-3 mb-3">
+            <h5>{{ shop.shopName }}</h5>
+            <p><strong>Shop ID:</strong> {{ shop.shopID }}</p>
+            <p><strong>Type:</strong> {{ shop.type }}</p>
+            <p><strong>Industry:</strong> {{ shop.industry }}</p>
+            <p><strong>Location:</strong> {{ shop.location }}</p>
+            <a href="{% url 'shop-detail' shop.shopID %}" class="btn btn-outline-primary">View Shop</a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">No shops created yet.</p>
+        <a href="{% url 'create-shop' %}" class="btn btn-outline-primary">Create Your First</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Employees -->
+  <div class="card profile-card mb-4">
+    <div class="card-header bg-warning text-white">
+      <h4>Employees</h4>        
+    </div>
+    <div class="card-body">
+      {% if employees %}
+        {% for emp in employees %}
+          <div class="border rounded p-3 mb-3">
+            <h5>{{ emp.Fname }} {{ emp.Lname }}</h5>
+            <p><strong>Employee ID:</strong> {{ emp.employeeID }}</p>
+            <p><strong>National ID:</strong> {{ emp.nationalID }}</p>
+            <p><strong>Date of Birth:</strong> {{ emp.DoB }}</p>
+            <p><strong>Age:</strong> {{ emp.DoB|timesince }} old</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">No employees added yet.</p>
+        <a href="{% url 'employee-list' %}" class="btn btn-outline-primary">Add Employee</a>
+      {% endif %}
+    </div>
+    <div class="card-footer">
+      <a href="{% url 'employee-list' %}" class="btn btn-outline-primary">Add More Employees or Fire Them</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

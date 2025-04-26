@@ -1,0 +1,38 @@
+{% extends "invex/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Link to Employee-specific CSS -->
+<link rel="stylesheet" href="{% static 'users/css/employees.css' %}">
+
+<div class="employee-container">
+    {% if not employees %}
+        <div class="empty-state text-center">
+            <a href="{% url 'add-employee' %}" class="btn btn-primary btn-lg">Add Employee</a>
+        </div>
+    {% else %}
+        <div class="header-bar">
+            <h3>Employees</h3>
+            <a href="{% url 'add-employee' %}" class="btn btn-outline-primary">Add More Employees</a>
+        </div>
+
+        <div class="employee-list">
+            {% for emp in employees %}
+                <div class="employee-card">
+                    <div class="employee-info">
+                        <p><strong>Name:</strong> {{ emp.Fname }} {{ emp.Lname }}</p>
+                        <p><strong>National ID:</strong> {{ emp.nationalID }}</p>
+                        <p><strong>Date of Birth:</strong> {{ emp.DoB }}</p>
+                        <p><strong>Gender:</strong> {{ emp.gender }}</p>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="btn btn-danger" onclick="confirmFire('{{ emp.employeeID }}')">Fire</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<script src="{% static 'users/js/emp.js' %}"></script>
+{% endblock %}

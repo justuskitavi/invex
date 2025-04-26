@@ -1,0 +1,20 @@
+{% extends 'invex/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Link to employee form-specific CSS -->
+<link rel="stylesheet" href="{% static 'users/css/add_employee.css' %}">
+
+<div class="add-employee-wrapper">
+    <div class="form-card">
+        <h2 class="form-title">Add Employee to {{ shop.shopName }}</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-success">Add Employee</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

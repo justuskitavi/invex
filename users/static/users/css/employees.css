@@ -1,0 +1,51 @@
+/* Page wrapper */
+.employee-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* Top bar */
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 60px 20px;
+}
+
+/* Employee card */
+.employee-card {
+    background-color: #f5f7fa;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Employee Info */
+.employee-info p {
+    margin-bottom: 6px;
+    font-size: 15px;
+    color: #444;
+}
+
+/* Actions */
+.employee-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-actions .btn-danger {
+    font-size: 14px;
+    padding: 8px 14px;
+}

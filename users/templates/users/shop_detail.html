@@ -1,0 +1,57 @@
+{% extends 'invex/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'users/css/shop_detail.css' %}">
+
+<div class="container shop-container mt-5">
+    <h2 class="shop-name">{{ shop.shopName }}</h2>
+
+    {% if products %}
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{% url 'add-product' shop.shopID %}" class="btn btn-outline-primary add-btn">Add More Products</a>
+    </div>
+
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th class="col-9">Products</th>
+                <th class="col-3">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>
+                    <div class="card product-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">
+                                <strong>Product ID:</strong> {{ product.productID }}<br>
+                                <strong>Description:</strong> {{ product.description }}<br>
+                                <strong>Manufacturer:</strong> {{ product.manufacturer }}<br>
+                                <strong>Price:</strong> {{ product.price }}<br>
+                                <strong>Quantity:</strong> {{ product.quantity }}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <button class="btn btn-success mb-2" onclick="promptAdd('{{ shop.shopID }}', '{{ product.productID }}')">Add</button>
+                    <button class="btn btn-warning" onclick="promptSell('{{ shop.shopID }}', '{{ product.productID }}')">Sell</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+    <div class="text-center mt-5">
+        <h2>{{ shop.shopName }}</h2>
+        <a href="{% url 'add-product' shop.shopID %}" class="btn btn-primary btn-lg">Add Products</a>
+    </div>
+    {% endif %}
+</div>
+
+<script src="{% static 'users/js/shop_detail.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "invex/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Custom Styling for Add Product -->
+<link rel="stylesheet" href="{% static 'users/css/add_product.css' %}">
+
+<div class="add-product-container">
+  <div class="form-card shadow-lg">
+    <h2 class="form-title">Add Product to {{ shop.shopName }}</h2>
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      <div class="form-fields">
+        {{ form.as_p }}
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success px-4">Add Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
