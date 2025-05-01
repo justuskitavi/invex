@@ -6,6 +6,7 @@ import json, random
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.conf import settings
 from invex.models import User, Shop, Stock, Employee, Sales
@@ -584,4 +585,24 @@ def delete_product(request, shopID, productID):
         return JsonResponse({'success': True})
     return JsonResponse({'error': 'Invalid request'}, status = 403)
 
+
+
+@login_required
+@csrf_exempt
+@require_POST
+def delete_shop(request, shopID):
+    try:
+        data = json.loads(request.body)
+        password = data.get('password')
+
+        user = authenticate(request, email=request.user.email, password=password)
+        if not user:
+            return JsonResponse({'error': 'Authentication failed'}, status=403)
+
+        shop = get_object_or_404(Shop, shopID=shopID, userID=request.user)
+        shop.delete()
+        return JsonResponse({'success': True})
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
             
