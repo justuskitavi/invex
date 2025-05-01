@@ -65,6 +65,37 @@ window.promptAdd = function (shopID, productID) {
     });
 };
 
+window.promptDelete = function (shopID, productID) {
+    const password = prompt('Enter your password to delete this product:');
+    if (!password) return;
+
+    const confirmed = confirm('Are you sure you want to permanently delete this product?');
+    if (!confirmed) return;
+
+    fetch(`/shop/${shopID}/delete-product/${productID}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({ password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Product deleted successfully.');
+            window.location.reload();
+        } else {
+            alert(data.error || 'Could not delete product.');
+        }
+    })
+    .catch(error => {
+        console.error('Delete product error', error);
+        alert('An error occurred while deleting the product.');
+    });
+};
+
+
 //Utility function to get CSRF token from cookies
 function getCSRFToken(){
     const match = document.cookie.match(/csrftoken=([^;]+)/);

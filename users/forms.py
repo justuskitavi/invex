@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from invex.models import User, Shop, Stock, Employee
 from django.contrib.auth.password_validation import validate_password
+
+
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label="Password",widget=forms.PasswordInput)
     password2 = forms.CharField(label="Confirm Password",widget=forms.PasswordInput)
@@ -81,17 +83,22 @@ class ShopForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Stock
-        fields = ['name', 'description', 'manufacturer', 'price', 'quantity']
+        fields = ['name', 'description', 'manufacturer', 'price', 'quantity', 'threshold']
         labels = {
             'name' : 'Name of the Product',
             'description' : 'Description',
             'manufacturer' : 'Manufacturer',
             'price' : 'Price of the Product',
             'quantity' : 'Quantity',
+            'threshold' : 'Threshold',
         }
         widgets = {
             'description' : forms.Textarea(attrs={'rows' : 3}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        self.fields['threshold'].initial = 5
 
 class EmployeeForm(forms.ModelForm):
     class Meta:
@@ -151,3 +158,14 @@ class NewPasswordForm(forms.Form):
         
         validate_password(pw1)
         return cleaned_data
+    
+
+class ProductEditForm(ProductForm):
+    class Meta(ProductForm.Meta):
+        # Reuse labels/widgets from ProductForm
+        exclude = ['quantity']  # Exclude quantity, not editable
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import CustomUserCreationForm, ShopForm, ProductForm, EmployeeForm, OTPVerificationForm, PasswordResetRequestForm, SetNewPasswordForm, PasswordConfirmationForm, NewPasswordForm, OTPForm
+from .forms import CustomUserCreationForm, ShopForm, ProductForm, EmployeeForm, OTPVerificationForm, PasswordResetRequestForm, SetNewPasswordForm, PasswordConfirmationForm, NewPasswordForm, OTPForm, ProductEditForm
 from django.http import JsonResponse
 import json, random
 from django.contrib.auth import authenticate, login, logout
@@ -8,9 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
-from invex.models import User, Shop, Stock, Employee
+from invex.models import User, Shop, Stock, Employee, Sales
 from datetime import date
 from django.utils import timezone
+from django.db import transaction
 
 def generate_otp():
     return str(random.randint(100000, 999999))
@@ -332,8 +333,13 @@ def add_stock(request, shopID, productID):
 
 @login_required
 @csrf_exempt
+@transaction.atomic
 def sell_product(request, shopID, productID):
-    product = get_object_or_404(Stock, productID=productID, shopID__shopID=shopID) 
+    product = get_object_or_404(
+        Stock.objects.select_related('shopID'), 
+        productID=productID, 
+        shopID__shopID=shopID
+        )
 
     if request.method == 'POST':
         try:
@@ -341,20 +347,49 @@ def sell_product(request, shopID, productID):
             quantity = int(data.get('quantity'))
 
             if quantity < 1:
-                return JsonResponse({  'error': 'Quantity must be positive number'}, status=400)
+                return JsonResponse({'error': 'Quantity must be a positive number'}, status=400)
             if quantity > product.quantity:
                 return JsonResponse({'error': 'Not enough stock'}, status=400)
-            
-            product.quantity -=quantity
+
+            # Decrement stock
+            product.quantity -= quantity
             product.save()
+
+            # Create sale record
+            Sales.objects.create(
+                product=product,
+                quantity=quantity,
+                total_price=quantity * product.price
+            )
+
+            # Send alert if stock is below threshold or out
+            subject, message = None, None                 
+
+            if product.quantity == 0:
+                subject = 'Product Out of Stock'
+                message = f'The product {product.name}, Description: "{product.description}" in shop {product.shopID.shopName} is now out of stock.'
+            elif product.quantity <= product.threshold:
+                subject = 'Low Stock Warning'
+                message = f'The product {product.name}, Description: "{product.description}" in shop {product.shopID.shopName} is low on stock.\nRemaining: {product.quantity} units.'
+
+            if subject and message:              
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    [request.user.email],
+                    fail_silently=False
+                )
+
             return JsonResponse({'success': True})
-        
+
         except ValueError:
             return JsonResponse({'error': 'Quantity must be a number'}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-        
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 @login_required
@@ -492,3 +527,61 @@ def set_changed_password(request):
     else:
         form = NewPasswordForm()
     return render(request, 'users/set_changed_password.html', {'form': form})
+
+@login_required
+@csrf_exempt
+def edit_product(request, shopID, productID):
+    product = get_object_or_404(Stock, productID=productID, shopID__shopID=shopID)
+
+    if request.method == 'POST':
+        content_type = request.headers.get('Content-Type', '')
+        if 'application/json' in content_type:
+            # This is the password-auth request
+            data = json.loads(request.body)
+            password = data.get('password')
+
+            user = authenticate(request, email=request.user.email, password=password)
+            if not user:
+                return JsonResponse({'error': 'Authentication failed'}, status=403)
+
+            form = ProductEditForm(instance=product)
+            form_html = render(request, 'users/edit_product.html', {
+                'form': form,
+                'shopID': shopID,
+                'productID': productID
+            }).content.decode('utf-8')
+
+            return JsonResponse({'success': True, 'form_html': form_html})
+    
+        else:
+            # This is the actual form submission
+            form = ProductEditForm(request.POST, instance=product)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({'success': True})
+            return JsonResponse({'error': 'Invalid form data'}, status=400)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+@login_required
+@csrf_exempt
+def delete_product(request, shopID, productID):
+    product = get_object_or_404(
+        Stock,
+        productID=productID,
+        shopID__shopID=shopID
+    )
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        password = data.get('password')
+
+        user = authenticate(request, email=request.user.email, password=password)
+        if not user:
+            return JsonResponse({'error': 'Authentication failed'}, status = 403)
+        
+        product.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'error': 'Invalid request'}, status = 403)
+
+            

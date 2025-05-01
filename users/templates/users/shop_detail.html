@@ -31,14 +31,25 @@
                                 <strong>Description:</strong> {{ product.description }}<br>
                                 <strong>Manufacturer:</strong> {{ product.manufacturer }}<br>
                                 <strong>Price:</strong> {{ product.price }}<br>
-                                <strong>Quantity:</strong> {{ product.quantity }}
+                                <strong>Quantity:</strong> {{ product.quantity }}<br>
+                                <strong>Threshold:</strong> {{ product.threshold }}<br>
                             </p>
                         </div>
                     </div>
                 </td>
                 <td class="align-middle text-center">
-                    <button class="btn btn-success mb-2" onclick="promptAdd('{{ shop.shopID }}', '{{ product.productID }}')">Add</button>
-                    <button class="btn btn-warning" onclick="promptSell('{{ shop.shopID }}', '{{ product.productID }}')">Sell</button>
+                    <div class="card actions-card">
+                        <div class="card-body">
+                            <ul>
+                                <button class="btn btn-success mb-2" onclick="promptAdd('{{ shop.shopID }}', '{{ product.productID }}')">Add</button>
+                                <button class="btn btn-warning" onclick="promptSell('{{ shop.shopID }}', '{{ product.productID }}')">Sell</button>
+                                <button class="btn btn-primary mb-2" onclick="promptEdit('{{ shop.shopID }}', '{{ product.productID }}')">Edit</button>
+                                <button class="btn btn-danger" onclick="promptDelete('{{ shop.shopID }}', '{{ product.productID }}')">Delete</button>
+                            </ul>  
+
+                        </div>
+                    </div>
+                                      
                 </td>
             </tr>
             {% endfor %}
@@ -54,4 +65,6 @@
 </div>
 
 <script src="{% static 'users/js/shop_detail.js' %}"></script>
+<script src="{% static 'users/js/edit_product.js' %}"></script>
+
 {% endblock %}

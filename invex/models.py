@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.core.exceptions import ValidationError
-import uuid
+from django.core.validators import MinValueValidator
 
 
 #Custom ID generator function
@@ -84,6 +84,10 @@ class Shop(models.Model):
             self.shopID = generate_custom_id("S", Shop, 'shopID')
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.shopName} (ID: {self.shopID})"
+
+
 #stock table - the products in the shop
 class Stock(models.Model):
     productID = models.CharField(max_length=6, primary_key=True, editable=False)
@@ -91,8 +95,10 @@ class Stock(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(default="NULL") 
     manufacturer = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     quantity = models.PositiveIntegerField()
+    threshold = models.IntegerField(default=5, validators=[MinValueValidator(0)])
+
 
     def save(self, *args, **kwargs):
         #Auto generate productID if not already set
@@ -118,5 +124,19 @@ class Employee(models.Model):
             self.employeeID = generate_custom_id("E", Employee, 'employeeID')
         super().save(*args, **kwargs)
 
+class Sales(models.Model):
+    saleID = models.CharField(max_length=7, primary_key=True, editable=False)
+    product = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.saleID:
+            self.saleID = generate_custom_id("SL", Sales, 'saleID')
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Sale {self.saleID} - {self.product.name} ({self.timestamp.strftime('%Y-%m-%d')})"
 
 

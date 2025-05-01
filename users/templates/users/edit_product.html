@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/static/users/css/edit_product.css">
+
+<div class="edit-form-modal" id="editProductModal">
+  <div class="edit-form-container">
+    <h4>Edit Product</h4>
+    <form id="editProductForm" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/static/users/js/edit_product.js"></script>
