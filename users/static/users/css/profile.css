@@ -1,6 +1,6 @@
 /* Page Background */
 body {
-    background-color: #f0f4f8; /* 🔧 Change this for the whole page background */
+    background-color: #a2d1d4; /* 🔧 Change this for the whole page background */
     margin: 0;
     padding: 0;
 }
@@ -14,7 +14,7 @@ body {
 
 /* Card Styling */
 .profile-card {
-    background-color: #ffffff; /* 🔧 Change card background color here */
+    background-color: #60f0ad; /* 🔧 Change card background color here */
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     margin-bottom: 30px;
@@ -36,7 +36,7 @@ body {
 .profile-card .card-body p {
     font-size: 16px;
     margin-bottom: 8px;
-    color: #333;
+    color: #220af8;
 }
 
 /* Footer buttons */

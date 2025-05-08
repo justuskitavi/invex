@@ -1,13 +1,50 @@
 {% extends "invex/base.html" %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'invex/about.css' %}">
+<link rel="stylesheet" href="{% static 'invex/css/about.css' %}">
 
 <div class="about-container">
-    <h1>About Invex</h1>
-    <p>
-        Invex is a simplified inventory management system designed for small shop owners.
-        Manage shops, employees, and products effortlessly.
-    </p>
+    <h1>Welcome to Invex</h1>
+
+    <section class="section">
+        <h2>What is Invex?</h2>
+        <p>
+            <strong>Invex</strong> is an Inventory, Expense, and Employee Management Web Application built with Django.
+            It enables small to medium-sized shop owners to manage their operations efficiently with powerful tools
+            for sales tracking, employee records, stock monitoring, and more.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2>Core Features</h2>
+        <ul>
+            <li>✅ Multi-shop support for each user</li>
+            <li>✅ Smart inventory tracking with threshold alerts</li>
+            <li>✅ Employee management: Add, fire, and monitor staff</li>
+            <li>✅ Daily sales reports by email</li>
+            <li>✅ Secure authentication with OTP verification</li>
+            <li>✅ Password reset/change via email</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Terms & Conditions</h2>
+        <p>By registering and using Invex, you agree to the following terms:</p>
+        <ol>
+            <li><strong>Account Responsibility:</strong> You are responsible for the security of your account and activities under your login.</li>
+            <li><strong>Data Accuracy:</strong> You are required to enter accurate information when adding products, employees, and other records.</li>
+            <li><strong>Usage Limits:</strong> Excessive or abusive usage of the system (e.g., spamming or automated access) may result in account suspension.</li>
+            <li><strong>Email Communication:</strong> Invex uses email to notify users of critical actions like OTPs, alerts, and reports. Ensure your email is valid and secure.</li>
+            <li><strong>Privacy:</strong> Your data will not be shared with third parties. We prioritize confidentiality and responsible handling of user data.</li>
+            <li><strong>Modifications:</strong> We reserve the right to improve or modify the system at any time, including adding or removing features.</li>
+        </ol>
+    </section>
+
+    <section class="section">
+        <h2>Need Help?</h2>
+        <p>
+            For support, feedback, or bug reports, please contact <a href="mailto:support@invex.com">support@invex.com</a>.
+        </p>
+    </section>
 </div>
 {% endblock content %}

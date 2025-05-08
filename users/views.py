@@ -27,7 +27,7 @@ def register(request):
             user_data['DoB'] = user_data['DoB'].isoformat()
             request.session['user_data'] = user_data
             otp = generate_otp()
-            request.session['otp'] = otp
+            request.session['register_otp'] = otp
             send_mail(
                 'Your Invex Email Verification OTP',
                 f'Your OTP for invex registration is: {otp}', 
@@ -43,13 +43,17 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 def verify_otp(request):
+    user_data = request.session.get('register_user_data')
+    session_otp = request.session.get('register_otp')
+
+    if not user_data or not session_otp:
+        messages.error(request, 'Session expired. Please register again.')
+
     if request.method == 'POST':
         form = OTPVerificationForm(request.POST)
         if form.is_valid():
             entered_otp = form.cleaned_data['otp']
-            session_otp = form.cleaned_data['otp']
-            user_data = request.session.get('user_data', {})
-            if entered_otp == entered_otp == session_otp and user_data:
+            if entered_otp == session_otp:
                 user_data['DoB'] = date.fromisoformat(user_data['DoB'])  
                     
                 user = User(
@@ -79,11 +83,11 @@ def verify_otp(request):
 
 
 def resend_otp(request):
-    user_data = request.session.get('user_data', {})
+    user_data = request.session.get('register_user_data', {})
     
     if user_data:
         otp = generate_otp()
-        request.session['otp'] = otp
+        request.session['register_otp'] = otp
         send_mail(
             'Your Invex Resent OTP',
             f'Your new OTP is: {otp}',
@@ -91,9 +95,12 @@ def resend_otp(request):
             [user_data['email']],
             fail_silently=False
         )
+        messages.info(request, 'A new OTP has been send to your email.')
         return redirect('verify-otp')
     else:
         messages.error(request, 'Session expired. Please register again.')
+        return redirect('register')  
+
 
 
 def loginView(request):
@@ -396,8 +403,8 @@ def sell_product(request, shopID, productID):
 @login_required
 def employee_list(request):
     try: 
-        shop = Shop.objects.get(userID=request.user)
-        employees = Employee.objects.filter(shopID=shop)
+        shop = Shop.objects.filter(userID=request.user)
+        employees = Employee.objects.filter(shopID__in=shop)
 
     except Shop.DoesNotExist:
         employees = None
@@ -408,25 +415,24 @@ def employee_list(request):
 
 @login_required
 def add_employee(request):
-    try:
-        shop = Shop.objects.get(userID=request.user)
+    user_shops = Shop.objects.filter(userID=request.user)
 
-    except Shop.DoesNotExist:
+    if not user_shops.exists():
         messages.error(request, "You must create a shop first.")
         return redirect('create-shop')
-    
+
     if request.method == 'POST':
-        form = EmployeeForm(request.POST)
+        form = EmployeeForm(request.POST, user=request.user)  # ← pass user here
         if form.is_valid():
             emp = form.save(commit=False)
-            emp.shopID = shop
+            emp.shopID = form.cleaned_data['shop_name']
             emp.save()
             messages.success(request, "Employee added successfully!")
             return redirect('employee-list')
     else:
-        form = EmployeeForm()
+        form = EmployeeForm(user=request.user)  # ← also pass user here
 
-    return render(request, 'users/add_employee.html', {'form': form,})
+    return render(request, 'users/add_employee.html', {'form': form})
 
 
 @login_required

@@ -12,7 +12,7 @@
     </form>
 
     <div class="resend-section">
-      <span id="countdown-text">You can resend in <span id="timer">60</span> seconds</span>
+      <span id="countdown-text">You can resend in <span id="timer">15</span> seconds</span>
       <form method="POST" action="{% url 'resend-otp' %}">
         {% csrf_token %}
         <button type="submit" id="resend-btn">Resend OTP</button>

@@ -17,10 +17,49 @@
 .empty-state {
     padding: 60px 20px;
 }
+.table td.align-middle {
+    text-align: center;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #1e064b; 
+    &:hover {
+        background-color: #f55a8d; /* Light blue on hover */
+    }
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #d1bf6f; 
+    &:hover {
+        background-color: #df96c6; /* Light blue on hover */
+    }
+  }
+    
+
+/* Button styling */
+.btn-outline-primary {
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+
+.create-shop-btn {
+    padding: 8px 18px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.action-card {
+    background-color: #a00da5;  /* 💡 Card background color */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 250px;
+}
 
 /* Employee card */
 .employee-card {
-    background-color: #f5f7fa;
+    background-color: #0fe2a3;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -29,20 +68,6 @@
     justify-content: space-between;
     align-items: flex-start;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* Employee Info */
-.employee-info p {
-    margin-bottom: 6px;
-    font-size: 15px;
-    color: #444;
-}
-
-/* Actions */
-.employee-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 .employee-actions .btn-danger {

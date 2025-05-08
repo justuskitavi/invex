@@ -1,4 +1,27 @@
 /* General layout */
+.page-wrapper {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  
+  .page-wrapper.fade-in {
+    opacity: 1;
+  }
+
+  /* Logo resizing */
+.navbar-brand img {
+    width: 100px;
+    height: 100px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Align navbar items evenly */
+  .navbar-nav {
+    display: flex;
+    gap: 20px;  /* Controls spacing between nav items */
+    align-items: center;
+  } 
+  
 body {
     background: #d1ddf5;
     color: #3d3d38;

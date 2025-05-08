@@ -8,6 +8,7 @@ from django.contrib.auth.password_validation import validate_password
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label="Password",widget=forms.PasswordInput)
     password2 = forms.CharField(label="Confirm Password",widget=forms.PasswordInput)
+    
 
     GENDER_CHOICES = [
         ('Male', 'Male'),
@@ -62,6 +63,12 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
         return user
     
+    def clean_agree_terms(self):
+        agree = self.cleaned_data.get('agree_terms')
+        if not agree:
+            raise forms.ValidationError("You must agree to the terms to register.")
+        return agree
+    
 
 class OTPVerificationForm(forms.Form):
     otp = forms.CharField(max_length=6, required=True, label="Enter OTP")
@@ -101,6 +108,12 @@ class ProductForm(forms.ModelForm):
         self.fields['threshold'].initial = 5
 
 class EmployeeForm(forms.ModelForm):
+    shop_name = forms.ModelChoiceField(
+        queryset=Shop.objects.none(),
+        label="Shop",
+        required=True,
+        empty_label="Select a shop"
+    )
     class Meta:
         model = Employee
         fields = ['Fname', 'Lname', 'nationalID', 'DoB', 'gender']
@@ -116,6 +129,11 @@ class EmployeeForm(forms.ModelForm):
             'DoB': forms.DateInput(attrs={'type': 'date'}),
             'gender': forms.Select(choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')]),            
         }
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['shop_name'].queryset = Shop.objects.filter(userID=user)
 
 
 class PasswordResetRequestForm(forms.Form):

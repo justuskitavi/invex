@@ -16,19 +16,38 @@
             <a href="{% url 'add-employee' %}" class="btn btn-outline-primary">Add More Employees</a>
         </div>
 
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Employees</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for emp in employees %}
+              <tr>
+                <td>
+                    <div class="employee-card">
+                        <div class="employee-info">
+                            <p><strong>Name:</strong> {{ emp.Fname|title }} {{ emp.Lname|title }}</p>
+                            <p><strong>National ID:</strong> {{ emp.nationalID }}</p>
+                            <p><strong>Date of Birth:</strong> {{ emp.DoB }}</p>
+                            <p><strong>Gender:</strong> {{ emp.gender }}</p>
+                            <p><strong>Shop:</strong> {{ emp.shopID.shopName|title }}</p>
+                        </div>                        
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <button class="btn btn-danger" onclick="confirmFire('{{ emp.employeeID }}')">Fire</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
         <div class="employee-list">
             {% for emp in employees %}
-                <div class="employee-card">
-                    <div class="employee-info">
-                        <p><strong>Name:</strong> {{ emp.Fname }} {{ emp.Lname }}</p>
-                        <p><strong>National ID:</strong> {{ emp.nationalID }}</p>
-                        <p><strong>Date of Birth:</strong> {{ emp.DoB }}</p>
-                        <p><strong>Gender:</strong> {{ emp.gender }}</p>
-                    </div>
-                    <div class="employee-actions">
-                        <button class="btn btn-danger" onclick="confirmFire('{{ emp.employeeID }}')">Fire</button>
-                    </div>
-                </div>
+                
             {% endfor %}
         </div>
     {% endif %}
