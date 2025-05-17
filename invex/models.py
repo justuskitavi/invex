@@ -138,5 +138,3 @@ class Sales(models.Model):
 
     def __str__(self):
         return f"Sale {self.saleID} - {self.product.name} ({self.timestamp.strftime('%Y-%m-%d')})"
-
-

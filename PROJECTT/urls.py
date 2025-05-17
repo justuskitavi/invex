@@ -38,7 +38,8 @@ urlpatterns = [
     path('shop/<str:shopID>/edit-product/<str:productID>/', user_views.edit_product, name='edit-product'),
     path('shop/<str:shopID>/delete-product/<str:productID>/', user_views.delete_product, name='delete-product'),
     path('shop/<str:shopID>/delete/', user_views.delete_shop, name='delete-shop'),
+    path("api/sales-summary/<str:shopID>/", user_views.general_sales, name="general-sales"),
+    path("api/product-sales/", user_views.product_sales, name="product-sales"),
+    path("shop-report/<str:shopID>/", user_views.report_page, name="shop-report-page")
 
-    
-    
 ]

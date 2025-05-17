@@ -1,0 +1,9 @@
+{% extends 'invex/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>{{ shop.shopName|title }} Sales Report</h2>
+<canvas id="salesChart" data-shop-id="{{ shopID }}" width="800" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'users/js/sales_report.js' %}"></script>
+{% endblock %}

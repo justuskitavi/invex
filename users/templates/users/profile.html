@@ -41,6 +41,8 @@
             <p><strong>Industry:</strong> {{ shop.industry|title }}</p>
             <p><strong>Location:</strong> {{ shop.location|title }}</p>
             <a href="{% url 'shop-detail' shop.shopID %}" class="btn btn-primary">View Shop</a>
+            <a href="{% url 'shop-report-page' shop.shopID %}" class="btn btn-info">Shop Report</a>
+
           </div>
         {% endfor %}
       {% else %}

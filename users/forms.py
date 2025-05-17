@@ -107,6 +107,15 @@ class ProductForm(forms.ModelForm):
         super(ProductForm, self).__init__(*args, **kwargs)
         self.fields['threshold'].initial = 5
 
+class ProductEditForm(ProductForm):
+    class Meta(ProductForm.Meta):
+        # Reuse labels/widgets from ProductForm
+        exclude = ['quantity']  # Exclude quantity, not editable
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+
 class EmployeeForm(forms.ModelForm):
     shop_name = forms.ModelChoiceField(
         queryset=Shop.objects.none(),
@@ -178,12 +187,5 @@ class NewPasswordForm(forms.Form):
         return cleaned_data
     
 
-class ProductEditForm(ProductForm):
-    class Meta(ProductForm.Meta):
-        # Reuse labels/widgets from ProductForm
-        exclude = ['quantity']  # Exclude quantity, not editable
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
 

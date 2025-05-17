@@ -10,14 +10,42 @@ from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.conf import settings
 from invex.models import User, Shop, Stock, Employee, Sales
-from datetime import date
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from django.db import transaction
+from django.db.models import Sum, F, DateTimeField
+from django.db.models.functions import TruncMonth
 
 def generate_otp():
     return str(random.randint(100000, 999999))
 
+def general_sales(request, shopID):
+    sales = (
+        Sales.objects.filter(product__shopID__shopID=shopID)
+        .values(product_name=F('product__name'))
+        .annotate(total_revenue=Sum('total_price'))
+        .order_by('-total_revenue')
+    )
+    return JsonResponse(list(sales), safe=False)
 
+def product_sales(request, product_id):
+    months = int(request.GET.get('months', 12))
+    start_date = timezone.now() - relativedelta(months=months)
+
+    sales = (
+        Sales.objects.filter(product__productID=product_id, timestamp__gte=start_date)
+        .annotate(month=TruncMonth('timestamp'))
+        .values('month')
+        .annotate(total_revenue=Sum('total_price'))
+        .order_by('month')
+    )
+    return JsonResponse(list(sales), safe=False)
+
+def report_page(request, shopID):
+    shop = get_object_or_404(Shop, shopID=shopID)
+    return render(request, 'users/sales_report.html', {'shopID': shopID, 'shop': shop,})
+    
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -27,7 +55,7 @@ def register(request):
             user_data['DoB'] = user_data['DoB'].isoformat()
             request.session['user_data'] = user_data
             otp = generate_otp()
-            request.session['register_otp'] = otp
+            request.session['otp'] = otp
             send_mail(
                 'Your Invex Email Verification OTP',
                 f'Your OTP for invex registration is: {otp}', 
@@ -43,11 +71,12 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 def verify_otp(request):
-    user_data = request.session.get('register_user_data')
-    session_otp = request.session.get('register_otp')
+    user_data = request.session.get('user_data')
+    session_otp = request.session.get('otp')
 
     if not user_data or not session_otp:
         messages.error(request, 'Session expired. Please register again.')
+        return redirect('register')
 
     if request.method == 'POST':
         form = OTPVerificationForm(request.POST)
@@ -611,4 +640,4 @@ def delete_shop(request, shopID):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-            
+        

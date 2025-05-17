@@ -2,69 +2,148 @@
 {% load static %}
 
 {% block content %}
+
 <link rel="stylesheet" href="{% static 'users/css/shop_detail.css' %}">
 
 <div class="container shop-container mt-5">
-    <h2 class="shop-name">{{ shop.shopName }}</h2>
+    <h2 class="shop-name">{{ shop.shopName|title }}</h2>
 
-    {% if products %}
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{% url 'add-product' shop.shopID %}" class="btn btn-outline-primary add-btn">Add More Products</a>
-    </div>
-
-    <table class="table table-borderless">
-        <thead>
-            <tr>
-                <th class="col-9">Products</th>
-                <th class="col-3">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>
-                    <div class="card product-card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">
-                                <strong>Product ID:</strong> {{ product.productID }}<br>
-                                <strong>Description:</strong> {{ product.description }}<br>
-                                <strong>Manufacturer:</strong> {{ product.manufacturer }}<br>
-                                <strong>Price:</strong> {{ product.price }}<br>
-                                <strong>Quantity:</strong> {{ product.quantity }}<br>
-                                <strong>Threshold:</strong> {{ product.threshold }}<br>
-                            </p>
-                        </div>
-                    </div>
-                </td>
-                <td class="align-middle text-center">
-                    <div class="card actions-card">
-                        <div class="card-body">
-                            <ul>
-                                <button class="btn btn-success mb-2" onclick="promptAdd('{{ shop.shopID }}', '{{ product.productID }}')">Add</button>
-                                <button class="btn btn-warning" onclick="promptSell('{{ shop.shopID }}', '{{ product.productID }}')">Sell</button>
-                                <button class="btn btn-primary mb-2" onclick="promptEdit('{{ shop.shopID }}', '{{ product.productID }}')">Edit</button>
-                                <button class="btn btn-danger" onclick="promptDelete('{{ shop.shopID }}', '{{ product.productID }}')">Delete</button>
-                            </ul>  
-
-                        </div>
-                    </div>
-                                      
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {% else %}
-    <div class="text-center mt-5">
-        <h2>{{ shop.shopName }}</h2>
-        <a href="{% url 'add-product' shop.shopID %}" class="btn btn-primary btn-lg">Add Products</a>
-    </div>
-    {% endif %}
+{% if products %}
+<div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'add-product' shop.shopID %}" class="btn btn-outline-primary add-btn">Add More Products</a>
 </div>
 
+<table class="table table-borderless table-stripped">
+    <thead>
+        <tr>
+            <th class="col-9">Products</th>
+            <th class="col-3">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>
+                <div class="card product-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">
+                            <strong>Product ID:</strong> {{ product.productID }}<br>
+                            <strong>Description:</strong> {{ product.description }}<br>
+                            <strong>Manufacturer:</strong> {{ product.manufacturer }}<br>
+                            <strong>Price:</strong> {{ product.price }}<br>
+                            <strong>Quantity:</strong> {{ product.quantity }}<br>
+                            <strong>Threshold:</strong> {{ product.threshold }}<br>
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td class="align-middle text-center">
+                <div class="card actions-card">
+                    <div class="card-body">
+                        <ul>
+                            <button class="btn btn-success mb-2" onclick="window.promptAdd('{{ shop.shopID }}', '{{ product.productID }}')">Add</button>
+                            <button class="btn btn-warning mb-2" onclick="window.promptSell('{{ shop.shopID }}', '{{ product.productID }}')">Sell</button>
+                            <button class="btn btn-primary mb-2" onclick="window.promptEdit('{{ shop.shopID }}', '{{ product.productID }}')">Edit</button>
+                            <button class="btn btn-danger mb-2" onclick="window.promptDelete('{{ shop.shopID }}', '{{ product.productID }}')">Delete</button>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<div class="text-center mt-5">
+    <h2>{{ shop.shopName|title }}</h2>
+    <a href="{% url 'add-product' shop.shopID %}" class="btn btn-primary btn-lg">Add Products</a>
+</div>
+{% endif %}
+```
+
+</div>
+
+<!-- Add Modal -->
+
+<div class="modal fade" id="addStockModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Stock</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addStockForm">
+                    <input type="hidden" id="modalShopID">
+                    <input type="hidden" id="modalProductID">
+                    <div class="mb-3">
+                        <label for="stockPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="stockPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stockQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="stockQuantity" required min="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Stock</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sell Modal -->
+
+<div class="modal fade" id="sellProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Sell Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="sellProductForm">
+                    <input type="hidden" id="sellShopID">
+                    <input type="hidden" id="sellProductID">
+                    <div class="mb-3">
+                        <label for="sellQuantity" class="form-label">Quantity to Sell</label>
+                        <input type="number" class="form-control" id="sellQuantity" required min="1">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Confirm Sale</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit product Modal -->
+<!-- Edit Product Modal -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="editModalBody">
+              <!-- The form will be dynamically injected here -->
+              <form id="editProductForm" method="post">
+                  {% csrf_token %}                 
+                  <div class="form-fields">
+                      {{ form.as_p }}  <!-- Render the form fields as paragraphs -->
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Update Product</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
 <script src="{% static 'users/js/shop_detail.js' %}"></script>
-<script src="{% static 'users/js/edit_product.js' %}"></script>
 
 {% endblock %}
