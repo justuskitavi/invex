@@ -3,7 +3,18 @@
 
 {% block content %}
 <h2>{{ shop.shopName|title }} Sales Report</h2>
-<canvas id="salesChart" data-shop-id="{{ shopID }}" width="800" height="400"></canvas>
+
+<!-- General sales report -->
+<h3>General Sales Summary</h3>
+<canvas id="generalSalesChart" width="800" height="400" data-shop-id="{{ shopID }}"></canvas>
+
+<!-- Individual product sales reports -->
+<h3>Individual Product Sales Report</h3>
+{% for product in products %}
+  <h4>{{ product.name|title }}</h4>
+  <canvas class="product-chart" data-product-id="{{ product.productID }}" width="800" height="400"></canvas>
+{% endfor %}
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'users/js/sales_report.js' %}"></script>
 {% endblock %}

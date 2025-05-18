@@ -33,7 +33,7 @@
         </td>
         <td class="align-middle text-center">
           <div class="action-card">            
-            <a href="{% url 'shop-detail' shop.shopID %}" class="btn btn-primary mb-2">View Shop</a><br>
+            <a href="{% url 'shop-detail' shop.shopID %}" class="btn btn-primary mb-2" onclick="promptViewShopPassword('{{ shop.shopID }}'); return false;">View Shop</a><br>
             <button class="btn btn-danger" onclick="shutdownShop('{{ shop.shopID }}')">Shut Down</button>
           </div>          
         </td>
@@ -48,6 +48,30 @@
     <a href="{% url 'create-shop' %}" class="btn btn-primary">Create Your First Shop</a>
   </div>
   {% endif %}
+</div>
+
+<!-- Modal for password input -->
+<div class="modal fade" id="viewShopPasswordModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="viewShopPasswordForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Enter Shop Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="viewShopID"/>
+          <div class="mb-3">
+            <label for="viewShopPasswordInput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="viewShopPasswordInput" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Verify</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 <script src="{% static 'users/js/view_shop.js' %}"></script>
 {% endblock %}

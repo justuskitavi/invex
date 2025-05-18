@@ -20,32 +20,7 @@ from django.db.models.functions import TruncMonth
 def generate_otp():
     return str(random.randint(100000, 999999))
 
-def general_sales(request, shopID):
-    sales = (
-        Sales.objects.filter(product__shopID__shopID=shopID)
-        .values(product_name=F('product__name'))
-        .annotate(total_revenue=Sum('total_price'))
-        .order_by('-total_revenue')
-    )
-    return JsonResponse(list(sales), safe=False)
 
-def product_sales(request, product_id):
-    months = int(request.GET.get('months', 12))
-    start_date = timezone.now() - relativedelta(months=months)
-
-    sales = (
-        Sales.objects.filter(product__productID=product_id, timestamp__gte=start_date)
-        .annotate(month=TruncMonth('timestamp'))
-        .values('month')
-        .annotate(total_revenue=Sum('total_price'))
-        .order_by('month')
-    )
-    return JsonResponse(list(sales), safe=False)
-
-def report_page(request, shopID):
-    shop = get_object_or_404(Shop, shopID=shopID)
-    return render(request, 'users/sales_report.html', {'shopID': shopID, 'shop': shop,})
-    
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -640,4 +615,69 @@ def delete_shop(request, shopID):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-        
+
+
+def general_sales(request, shopID):
+    sales = (
+        Sales.objects.filter(product__shopID__shopID=shopID)
+        .values(product_name=F('product__name'))
+        .annotate(total_revenue=Sum('total_price'))
+        .order_by('-total_revenue')
+    )
+    return JsonResponse(list(sales), safe=False)
+
+def product_sales(request):
+    product_id = request.GET.get('productID')
+    months = int(request.GET.get('months', 12))
+    start_date = timezone.now() - relativedelta(months=months)
+
+    sales = (
+        Sales.objects.filter(product__productID=product_id, timestamp__gte=start_date)
+        .annotate(month=TruncMonth('timestamp'))
+        .values('month')
+        .annotate(total_revenue=Sum('total_price'))
+        .order_by('month')
+    )
+    return JsonResponse(list(sales), safe=False)
+
+@login_required
+def report_page(request, shopID):
+    shop = get_object_or_404(Shop, shopID=shopID)
+    sales_for_shop = Sales.objects.filter(product__shopID__shopID=shopID)
+    products = Stock.objects.filter(pk__in=sales_for_shop.values_list('product', flat=True).distinct())
+    return render(request, 'users/sales_report.html', {
+        'shopID': shopID,
+        'shop': shop,
+        'products': products,
+    })
+
+
+@csrf_exempt
+def verify_shop_password(request, shopID):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        password = data.get('password')
+        # Verify the user password
+        if request.user.check_password(password):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+    return JsonResponse({'success': False}) 
+
+
+@csrf_exempt  # or handle CSRF properly
+def verify_password(request):
+    if request.method == 'POST':
+        # Parse JSON data if sent as JSON, or get POST data
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+            password = data.get('password')
+        else:
+            password = request.POST.get('password')
+
+        user = request.user
+        if user.is_authenticated and user.check_password(password):
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})

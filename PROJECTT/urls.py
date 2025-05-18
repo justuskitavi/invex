@@ -40,6 +40,8 @@ urlpatterns = [
     path('shop/<str:shopID>/delete/', user_views.delete_shop, name='delete-shop'),
     path("api/sales-summary/<str:shopID>/", user_views.general_sales, name="general-sales"),
     path("api/product-sales/", user_views.product_sales, name="product-sales"),
-    path("shop-report/<str:shopID>/", user_views.report_page, name="shop-report-page")
+    path("shop-report/<str:shopID>/", user_views.report_page, name="shop-report-page"),
+    path('shop/<str:shopID>/verify-password/', user_views.verify_shop_password, name='verify-shop-password'),
+    path('verify-password/', user_views.verify_password, name='verify_password'),
 
 ]
