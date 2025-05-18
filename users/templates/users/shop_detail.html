@@ -61,12 +61,10 @@
     <a href="{% url 'add-product' shop.shopID %}" class="btn btn-primary btn-lg">Add Products</a>
 </div>
 {% endif %}
-```
 
 </div>
 
 <!-- Add Modal -->
-
 <div class="modal fade" id="addStockModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-3">
@@ -94,7 +92,6 @@
 </div>
 
 <!-- Sell Modal -->
-
 <div class="modal fade" id="sellProductModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-3">
@@ -117,32 +114,41 @@
     </div>
 </div>
 
-
-<!-- Edit product Modal -->
 <!-- Edit Product Modal -->
-<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="editModalBody">
-              <!-- The form will be dynamically injected here -->
-              <form id="editProductForm" method="post">
-                  {% csrf_token %}                 
-                  <div class="form-fields">
-                      {{ form.as_p }}  <!-- Render the form fields as paragraphs -->
-                  </div>
-                  
-                  <button type="submit" class="btn btn-primary">Update Product</button>
-              </form>
-          </div>
-      </div>
-  </div>
+<div class="modal fade" id="editPasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Password to Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm">
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="passwordInput" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Continue</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
-
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="editModalBody">
+                <!-- Form will be injected here -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="{% static 'users/js/shop_detail.js' %}"></script>
 

@@ -103,7 +103,7 @@
 }
 
 /* Edit Form Modal */
-.edit-form-modal {
+.editProductModal {
     position: fixed;
     top: 0;
     left: 0;
@@ -135,4 +135,55 @@
 /* Modal Animation */
 .modal-content {
     animation: fadeIn 0.3s ease-in-out;
+}
+
+
+/* Style the password verification form */
+#passwordForm {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons in the password form */
+#passwordForm .btn {
+    margin-right: 10px;
+}
+
+/* Edit modal layout */
+#editProductModal .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Form inside the modal */
+#editModalBody form {
+    padding: 10px 5px;
+}
+
+/* Input fields */
+#editModalBody input[type="text"],
+#editModalBody input[type="number"],
+#editModalBody textarea,
+#editModalBody select {
+    margin-bottom: 15px;
+}
+
+/* Modal header */
+#editProductModal .modal-header {
+    background-color: #0d6efd;
+    color: white;
+    border-bottom: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Modal buttons */
+#editProductModal .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
 }

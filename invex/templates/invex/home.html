@@ -16,7 +16,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Staff</h5>
                     <p class="card-text">Manage your Staff</p>
-                    <a href="{% url 'employee-list' %}" class="btn btn-outline-primary">View your staff members</a>
+                    <a href="{% url 'employee-list' %}" class="btn btn-outline-primary secure-link" data-target-url="{% url 'employee-list' %}">View your staff members</a>
                 </div>
             </div>
 
@@ -25,7 +25,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Shops Owned</h5>
                     <p class="card-text">View or Manage Your Shops</p>
-                    <a href="{% url 'view-shop' %}" class="btn btn-outline-primary">View your shops</a>
+                    <a href="{% url 'view-shop' %}" class="btn btn-outline-primary secure-link" data-target-url="{% url 'view-shop' %}">View your shops</a>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Profile</h5>
                     <p class="card-text">Manage your personal information.</p>
-                    <a href="{% url 'profile' %}" class="btn btn-outline-primary">Go to Profile</a>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-primary secure-link" data-target-url="{% url 'profile' %}">Go to Profile</a>
                 </div>
             </div>
         </div>

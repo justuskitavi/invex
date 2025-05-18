@@ -43,5 +43,6 @@ urlpatterns = [
     path("shop-report/<str:shopID>/", user_views.report_page, name="shop-report-page"),
     path('shop/<str:shopID>/verify-password/', user_views.verify_shop_password, name='verify-shop-password'),
     path('verify-password/', user_views.verify_password, name='verify_password'),
+    path('shop/<int:shopID>/edit-product/<int:productID>/', user_views.edit_product, name='edit-product')
 
 ]

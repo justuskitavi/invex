@@ -6,7 +6,7 @@ import json, random
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.core.mail import send_mail
 from django.conf import settings
 from invex.models import User, Shop, Stock, Employee, Sales
@@ -541,38 +541,42 @@ def set_changed_password(request):
 
 @login_required
 @csrf_exempt
+@require_http_methods(["POST"])
 def edit_product(request, shopID, productID):
     product = get_object_or_404(Stock, productID=productID, shopID__shopID=shopID)
 
-    if request.method == 'POST':
-        content_type = request.headers.get('Content-Type', '')
-        if 'application/json' in content_type:
-            # This is the password-auth request
-            data = json.loads(request.body)
-            password = data.get('password')
+    # Check if the request is JSON (for password verification)
+    if request.content_type == 'application/json' or request.headers.get('Content-Type', '').startswith('application/json'):
+        data = json.loads(request.body)
+        password = data.get('password')
 
-            user = authenticate(request, email=request.user.email, password=password)
-            if not user:
-                return JsonResponse({'error': 'Authentication failed'}, status=403)
+        if not request.user.check_password(password):
+                return JsonResponse({'error': 'Incorrect password'}, status=400)  
 
-            form = ProductEditForm(instance=product)
-            form_html = render(request, 'users/edit_product.html', {
+        # Password verified, prepare form HTML
+        form = ProductEditForm(instance=product)
+        form_html = render(request, 'users/product_edit_form.html', {
+            'form': form,
+            'shopID': shopID,
+            'productID': productID
+        }).content.decode('utf-8')
+
+        return JsonResponse({'success': True, 'form_html': form_html})
+
+    else:
+        # Handling form submit
+        form = ProductEditForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            # Return form errors if needed
+            form_html = render(request, 'user/product_edit_form.html', {
                 'form': form,
                 'shopID': shopID,
                 'productID': productID
             }).content.decode('utf-8')
-
-            return JsonResponse({'success': True, 'form_html': form_html})
-    
-        else:
-            # This is the actual form submission
-            form = ProductEditForm(request.POST, instance=product)
-            if form.is_valid():
-                form.save()
-                return JsonResponse({'success': True})
-            return JsonResponse({'error': 'Invalid form data'}, status=400)
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({'success': False, 'error': 'Invalid data', 'form_html': form_html})
 
 
 @login_required
@@ -681,3 +685,4 @@ def verify_password(request):
         else:
             return JsonResponse({'success': False})
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
