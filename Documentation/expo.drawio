@@ -1,0 +1,46 @@
+<mxfile host="65bd71144e">
+    <diagram id="-3ijYxc0tLprnT-sudV8" name="Page-1">
+        <mxGraphModel dx="1345" dy="659" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="677" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6E6E6;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="160" width="660" height="750" as="geometry"/>
+                </mxCell>
+                <mxCell id="678" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCCE6;" vertex="1" parent="1">
+                    <mxGeometry x="210" y="210" width="630" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="679" value="&lt;b&gt;&lt;u&gt;FRONTEND&lt;/u&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="230" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="680" value="HTML Templates" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="280" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="683" value="Bootstrap CSS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="670" y="280" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="684" value="JavaScript" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="460" y="280" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="685" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#66FF66;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="410" width="310" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="686" value="&lt;b&gt;&lt;u&gt;BACKEND&lt;/u&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="487.5" y="440" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="687" value="Python Django" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="467.5" y="480" width="105" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="688" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFF99;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="690" width="410" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="689" value="&lt;b&gt;&lt;u&gt;DATABASE&lt;/u&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="710" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="690" value="POSTGRESQL" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="460" y="750" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

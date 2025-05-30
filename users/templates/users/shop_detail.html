@@ -26,14 +26,14 @@
             <td>
                 <div class="card product-card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
+                        <h5 class="card-title">{{ product.name|title }}</h5>
                         <p class="card-text">
-                            <strong>Product ID:</strong> {{ product.productID }}<br>
-                            <strong>Description:</strong> {{ product.description }}<br>
-                            <strong>Manufacturer:</strong> {{ product.manufacturer }}<br>
-                            <strong>Price:</strong> {{ product.price }}<br>
-                            <strong>Quantity:</strong> {{ product.quantity }}<br>
-                            <strong>Threshold:</strong> {{ product.threshold }}<br>
+                            <strong>Product ID:</strong> {{ product.productID|title }}<br>
+                            <strong>Description:</strong> {{ product.description|title }}<br>
+                            <strong>Manufacturer:</strong> {{ product.manufacturer|title }}<br>
+                            <strong>Price:</strong> {{ product.price|title }}<br>
+                            <strong>Quantity:</strong> {{ product.quantity|title }}<br>
+                            <strong>Threshold:</strong> {{ product.threshold|title }}<br>
                         </p>
                     </div>
                 </div>

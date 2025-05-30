@@ -142,7 +142,7 @@ def forgot_password(request):
 
             send_mail(
                 'Invex Password Reset OTP',
-                f'Your password reset OTP is: {otp}',
+                f'Your password reset OTP is: {otp}\n INVEX Team',
                 settings.EMAIL_HOST_USER,
                 [email],
                 fail_silently=False
@@ -193,9 +193,8 @@ def set_new_password(request):
                 send_mail(
                     subject='Your Invex password was reset',
                     message=(
-                        "If this was you, no action is needed. "
-                        "If not, please change your password immediately using the link below:\n"
-                        "https://yourdomain.com/change-password/"  # You can update this later
+                        "If this was you, no action is needed.\n "
+                        "If not, please take action to secure your account\n  INVEX Team"
                     ),
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[user.email],  # 👈 FIXED
@@ -232,7 +231,7 @@ def resend_otp(request):
                 [email],
                 fail_silently=False
             )
-            messages.success(request, 'New OTP sent successfully.')
+            messages.success(request, 'New OTP sent successfully.\n INVEX Team')
         except User.DoesNotExist:
             messages.error(request, 'No account associated with this email.')
     else:
@@ -379,10 +378,10 @@ def sell_product(request, shopID, productID):
 
             if product.quantity == 0:
                 subject = 'Product Out of Stock'
-                message = f'The product {product.name}, Description: "{product.description}" in shop {product.shopID.shopName} is now out of stock.'
+                message = f'The product {product.name}, Description: "{product.description}" in shop {product.shopID.shopName} is now out of stock.\n INVEX Team'
             elif product.quantity <= product.threshold:
                 subject = 'Low Stock Warning'
-                message = f'The product {product.name}, Description: "{product.description}" in shop {product.shopID.shopName} is low on stock.\nRemaining: {product.quantity} units.'
+                message = f'The product {product.name}, Description: "{product.description}" in shop {product.shopID.shopName} is low on stock.\nRemaining: {product.quantity} units.\n INVEX Team'
 
             if subject and message:              
 
@@ -474,7 +473,7 @@ def change_password_request(request):
 
                 send_mail(
                     subject="Your Invex Change Password OTP",
-                    message=f"Your OTP is: {otp}",
+                    message=f"Your OTP is: {otp}\n INVEX Team",
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[request.user.email],
                     fail_silently=False
@@ -508,7 +507,7 @@ def resend_change_otp(request):
 
     send_mail(
         subject="Your Resent OTP for Password Change",
-        message=f"Your new OTP is: {otp}",
+        message=f"Your new OTP is: {otp}\n INVEX Team",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[request.session.get('change_user_email')],
         fail_silently=False
@@ -528,7 +527,7 @@ def set_changed_password(request):
 
             send_mail(
                 subject="Your password was changed",
-                message="Your password has been changed successfully. If this was not you, click here: [LINK]",
+                message="Your password has been changed successfully. If this was not you, please take action to secure your account.\n INVEX Team",
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[user.email],
                 fail_silently=False
